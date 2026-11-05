@@ -83,23 +83,24 @@ overlap(slot(time(SH1,SM1,SMD1),time(EH1,EM1,EMD1)),slot(time(SH2,SM2,SMD2),time
 
 people([ann,bob,carla]).
 
-list(_|_).
-list(H|T):-
-	free(H,Time)
-	Head = T
-	list(Head|)
+%Empty List
+list([],Slot,Slot).
+%Recursive Step
+list([H|T],HeadSlot, Result):-
+	%Finds Slot of Next Person
+	free(H,CurrSlot),
+	%Determines if the HeadSlot and the CurrSlot have an overlap and 'returns' it
+	overlap(HeadSlot,CurrSlot, Overlap),
+	%Does it again to determine if the above overlap works for the rest of the people in the list
+	list(T, Overlap, Result).
 
-
-
-
-meet(Slot) :-	
-	
-
-	
-
-
-
-
+meet(Slot) :-
+	%Retrieve People
+	people([H|T]),
+	%Retrieve First Person
+	free(H,HeadSlot),
+	%Processes HeadSlot Against the rest of the list
+	list(T,HeadSlot,Slot).
 
 main :- findall(Slot, meet(Slot), Slots),
         uniq(Slots, Uniq),

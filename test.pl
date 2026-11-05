@@ -63,6 +63,38 @@ overlap(slot(time(SH1,SM1,SMD1),time(EH1,EM1,EMD1)),slot(time(SH2,SM2,SMD2),time
 	; Overlap = slot(time(SH1,SM1,SMD1),time(EH2,EM2,EMD2))).
 overlap(_, _, empty).
 
+meetone(Person,slot(MStart, MEnd)) :- 
+	free(Person, slot(AStart, AEnd)),
+	timetomins(AStart, AStartTotal),
+	timetomins(AEnd, AEndTotal),
+	timetomins(MStart, MStartTotal),
+	timetomins(MEnd, MEndTotal),
+	%meeting start is either the same as or greater than when the person is available
+	AStartTotal =< MStartTotal,
+	%meeting end is equal to or less than  when the person is available
+	%whover decided => means something other than just comparison is evil
+	MEndTotal =< AEndTotal.
+
+%Empty List
+list([],Slot,Slot).
+%Recursive Step
+list([H|T],HeadSlot, Result):-
+	%Finds Slot of Next Person
+	free(H,CurrSlot),
+	%Determines if the HeadSlot and the CurrSlot have an overlap and 'returns' it
+	overlap(HeadSlot,CurrSlot, Overlap),
+	%Does it again to determine if the above overlap works for the rest of the people in the list
+	list(T, Overlap, Result).
+
+meet(Slot) :-
+	%Retrieve People
+	people([H|T]),
+	%Retrieve First Person
+	free(H,HeadSlot),
+	%Processes HeadSlot Against the rest of the list
+	list(T,HeadSlot,Slot).
+
+
 %test_predicate_name(Time1, Time2, TestName) :-
 %    predicate_name(Time1, Time2),
 %    format('~w: ~w something to ~w~n', [TestName, Time1, Time2]).
@@ -82,6 +114,12 @@ test_overlap(slot(time(SH1,SM1,SMD1),time(EH1,EM1,EMD1)),slot(time(SH2,SM2,SMD2)
 	(Expected = Overlap -> format('Pass: ~w~n',[Title]) 
 	; format('~w:~nExpected: ~w got ~w~n',[Title, Expected, Overlap])).
 
+test_meetone(Person,Slot,Expected,Title) :-
+	(meetone(Person, Slot) -> Result = true 
+	; Result = false),
+	( Expected == Result -> format('Pass: ~w~n',[Title])
+	; format('~w:~nExpected: ~w got ~w~n',[Title,Expected,Result])).
+
 main :- 
 	test_timetomins(time(12,30,am), 30, '12:30 am test'),
 	test_timetomins(time(1,0,am), 60, '1:00 am test'),
@@ -91,6 +129,8 @@ main :-
 	test_minstotime(60,time(1,0,am), '60 mins test'),
 	test_minstotime(750,time(12,30,pm), '750 mins test'),
 	test_minstotime(780,time(1,0,pm), '780 mins test'),
+	test_meetone(ann,slot(time(8,0,am),time(9,0,am)),true,'Ann 8am - 9am'),
+	test_meetone(ann,slot(time(2,0,pm),time(3,0,pm)),false,'Ann 2pm - 3pm'),
 	test_overlap(slot(time(1,0,am),time(2,0,am)),slot(time(1,0,am),time(2,0,am)), slot(time(1,0,am),time(2,0,am)),'Full Overlap'),
 	test_overlap(slot(time(1,0,am),time(4,0,am)),slot(time(2,0,am),time(3,0,am)), slot(time(2,0,am),time(3,0,am)),'Engulfing Overlap'),
 	test_overlap(slot(time(1,30,am),time(2,30,am)),slot(time(1,0,am),time(2,0,am)), slot(time(1,30,am),time(2,0,am)),'Partial Overlap'),
