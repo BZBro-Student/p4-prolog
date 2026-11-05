@@ -31,7 +31,7 @@ meetone(Person,slot(MStart, MEnd)) :-
 	%meeting start is either the same as or greater than when the person is available
 	AStartTotal =< MStartTotal,
 	%meeting end is equal to or less than  when the person is available
-	%whover decided => means something other than just comparison is evil :D
+	%whover decided => means something other than just comparison is evil
 	MEndTotal =< AEndTotal.
 
 main :- findall(Person,
