@@ -82,6 +82,16 @@ overlap(slot(time(SH1,SM1,SMD1),time(EH1,EM1,EMD1)),slot(time(SH2,SM2,SMD2),time
 
 
 people([ann,bob,carla]).
+
+list(_|_).
+list(H|T):-
+	free(H,Time)
+	Head = T
+	list(Head|)
+
+
+
+
 meet(Slot) :-	
 	
 
