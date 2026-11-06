@@ -11,11 +11,19 @@ prints out compatible meeting times for Ann, Bob, and Carla. test.pl tests predi
 
 ## Reflection
 
-Write a two paragraph reflection describing your experience with this
-project.  Talk about what worked well and what was challenging.  
-Did you run into an issue that took some time to figure out?  
-Tell us about it. What did you enjoy, what was less desirable? Feel
-free to add other items (within the two paragraph limit).
+This language is both fun and not fun at the same time. One moment you are on the top of the world 
+writing simple predicates, doing some pattern matching, maybe even a little if then else statements 
+and then you find a problem you don't know how to solve. For the first while of the assignment I would 
+honestly look at it and then turn off my computer for the night and say "Thats a later me problem". It 
+was just so confusing. I only managed to scrape my way to a solution for the meetone file after a few hours.
+After that starting meet was a bit easier to do.
+The bulk of meet went well. The overlap logic made sense after I drew some pictures of the problem. Once
+I had overlaping figured out I went to actually write meet and realized I didn't know how to properly process
+lists against my overlap logic. I struggled on this so long that I went to office hours and got help. I did eventually 
+figure out a solution. Meet basically acts as a catalyst to get our first value. Then we have a second predicate in meet 
+that takes that first value and tries to find an overlap. A simple solution but one that took me a very long time to figure
+out. I love this language it is interesting, and it does things that I haven't seen before but it also is very hard to 
+learn. Overall great assignment, a very enjoyable challenge.
 
 ## Compiling and Using
 
@@ -29,17 +37,14 @@ Once executable you can simply run it like so:
 ```
 ## Results
 
-This section presents timing and other results of any experiments that
-you were asked to perform as part of the project.
+All of my tests pass. I couldn't figure out a good way to test meet, but all other
+predicates are effectively working tested.
 
 ## Sources used
+https://www.cs.cmu.edu/~fp/courses/15317-f17/lectures/15-prolog.pdf - most of this is over my head but still interesting
+https://www.gprolog.org/manual/gprolog.html
+https://stackoverflow.com/questions/64901531/how-to-read-from-a-list-in-gnu-prolog - found this from 5 years ago, not very helpful but interesting
+https://stackoverflow.com/questions/2849045/if-in-prolog  - answer was for ISO prolog but much of this is universal between the two.
 
-If you used any sources outside of the lecture notes, class lab files,
-or text book you need to list them here. If you looked something up on
-stackoverflow.com and fail to cite it in this section it will be
-considered plagiarism and be dealt with accordingly. Be sure to include any 
-usage of Generative AI, and why you used it or what you got from it.  
-
-Finally, remove these instructions from your README.md after you are finished!
 
 ----------
